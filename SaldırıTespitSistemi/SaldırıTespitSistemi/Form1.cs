@@ -53,7 +53,7 @@ namespace SaldırıTespitSistemi
 
         private void cbAlgoritma_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedItem = cbAlgoritma.SelectedIndex.ToString();
+            SelectedItem = cbAlgoritma.SelectedItem.ToString();
         }
 
         private void cbVeriSeti_SelectedIndexChanged(object sender, EventArgs e)

@@ -2,9 +2,9 @@ import pandas as pd
 import pickle
 import random
 
-df = pd.read_csv('UNSW_NB15_testing-set.csv')
+df = pd.read_csv(r'C:\Users\ogzhn\Desktop\saldiri-tespit-sistemi-main\SaldırıTespitSistemi\UNSW_NB15_testing-set.csv')
 
-with open('model_1_knn', 'rb') as file:
+with open(r'C:\Users\ogzhn\Desktop\saldiri-tespit-sistemi-main\SaldırıTespitSistemi\model_1_knn', 'rb') as file:
     model = pickle.load(file)
 
 
@@ -19,16 +19,22 @@ sonuc = model.predict(input)
 rastgele_sayi = random.randint(0, 175341)
 
 if(sonuc[rastgele_sayi] == 1) :
-    print("a")
+    print("Analysis Saldırısı Gerçekleşti")
 elif(sonuc[rastgele_sayi] == 2) :
-    print("b")
+    print("Backdoor Saldırısı Gerçekleşti")
 elif(sonuc[rastgele_sayi] == 3) :
-    print("c")
+    print("DoS Saldırısı Gerçekleşti")
 elif(sonuc[rastgele_sayi] == 4) :
-    print("d")
+    print("Exploits Saldırısı Gerçekleşti")
 elif(sonuc[rastgele_sayi] == 5) :
-    print("e")
+    print("Fuzzers Saldırısı Gerçekleşti")
 elif(sonuc[rastgele_sayi] == 6) :
-    print("f")
+    print("Generic Saldırısı Gerçekleşti")
+elif(sonuc[rastgele_sayi] == 7) :
+    print("Reconnaissance Saldırısı Gerçekleşti")
+elif(sonuc[rastgele_sayi] == 8) :
+    print("Shellcode Saldırısı Gerçekleşti")
+elif(sonuc[rastgele_sayi] == 9) :
+    print("Worms Saldırısı Gerçekleşti")
 else:
     print("yanlis deger")

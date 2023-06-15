@@ -20,7 +20,7 @@ namespace SaldırıTespitSistemi
         public Form2(Form1 form1)
         {
             InitializeComponent();
-            this.form1 = new Form1();
+            this.form1 = form1;
         }
 
         private void btnGeri_Click(object sender, EventArgs e)
@@ -40,7 +40,7 @@ namespace SaldırıTespitSistemi
         {
             for (int i = 0; i < 50; i++)
             {
-                Thread.Sleep(50);
+                Thread.Sleep(5);
             }
 
             string selectedValue = form1.SelectedItem;
@@ -48,29 +48,78 @@ namespace SaldırıTespitSistemi
 
         private void btnSaldiriOlustur_Click(object sender, EventArgs e)
         {
-            RunPythonScript();
+            string powerShellCommand;
+            string output;
+
+            if (form1.SelectedItem == "Lojistik Regresyon")
+            {
+                powerShellCommand = "python C:\\Users\\ogzhn\\Desktop\\saldiri-tespit-sistemi-main\\SaldırıTespitSistemi\\Model1_LR.py";
+                output = RunPowerShellCommand(powerShellCommand);
+                richTextBox1.Text = output;
+            } 
+            else if (form1.SelectedItem == "K En Yakın Komşu Algoritması")
+            {
+                powerShellCommand = "python C:\\Users\\ogzhn\\Desktop\\saldiri-tespit-sistemi-main\\SaldırıTespitSistemi\\Model1_KNN.py";
+                output = RunPowerShellCommand(powerShellCommand);
+                richTextBox1.Text = output;
+            }
+            else if (form1.SelectedItem == "LightGBM")
+            {
+                powerShellCommand = "python C:\\Users\\ogzhn\\Desktop\\saldiri-tespit-sistemi-main\\SaldırıTespitSistemi\\Model1_LightGBM.py";
+                output = RunPowerShellCommand(powerShellCommand);
+                richTextBox1.Text = output;
+            }
+            else if (form1.SelectedItem == "GBM")
+            {
+                powerShellCommand = "python C:\\Users\\ogzhn\\Desktop\\saldiri-tespit-sistemi-main\\SaldırıTespitSistemi\\Model1_GBM.py";
+                output = RunPowerShellCommand(powerShellCommand);
+                richTextBox1.Text = output;
+            }
         }
+
+        string RunPowerShellCommand(string command)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = $"-Command \"{command}\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (Process process = new Process())
+            {
+                process.StartInfo = startInfo;
+                process.Start();
+                string output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+
+                return output;
+            }
+        }
+
 
         private void RunPythonScript()
         {
-            string pythonPath = "C:\\Users\\9500169\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Python 3.9";
-            string scriptPath = "C:\\Users\\9500169\\Desktop\\bitirme_projesi\\SaldırıTespitSistemi\\Model1_LR.py";
+            //string pythonPath = "C:\\Users\\ogzhn\\AppData\\Local\\Programs\\Python\\Python311\\";
+            //string scriptPath = "\"C:\\Users\\ogzhn\\Desktop\\saldiri-tespit-sistemi-main\\SaldırıTespitSistemi\\Model1_LR.py\"";
 
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = pythonPath;
-            startInfo.Arguments = scriptPath;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
+            //ProcessStartInfo startInfo = new ProcessStartInfo();
+            //startInfo.FileName = pythonPath;
+            //startInfo.Arguments = scriptPath;
+            //startInfo.RedirectStandardOutput = true;
+            //startInfo.UseShellExecute = false;
+            //startInfo.CreateNoWindow = true;
 
-            using (Process process = Process.Start(startInfo))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    richTextBox1.Text = result;
-                }
-            }
+            //using (Process process = Process.Start(startInfo))
+            //{
+            //    using (StreamReader reader = process.StandardOutput)
+            //    {
+            //        string result = reader.ReadToEnd();
+            //        richTextBox1.Text = result;
+            //    }
+            //}
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
